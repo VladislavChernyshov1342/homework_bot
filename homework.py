@@ -30,7 +30,7 @@ logging.basicConfig(
 
 
 def check_tokens():
-    """Проверяет доступность токенов в окружении"""
+    """Проверяет доступность токенов в окружении."""
     if PRACTICUM_TOKEN is not None and \
        TELEGRAM_TOKEN is not None and \
        TELEGRAM_CHAT_ID is not None:
@@ -41,7 +41,7 @@ def check_tokens():
 
 
 def send_message(bot, message):
-    """Отправляет сообщение через бота в Телеграмм"""
+    """Отправляет сообщение через бота в Телеграмм."""
     try:
         bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         logger.debug('Сообщение отправлено в Telegram: %s', message)
@@ -50,8 +50,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(timestamp):
-    """Делает GET запрос к API Практикума домашки и"""
-    """переводит его из типа json в тип python"""
+    """Делает GET запрос к API Практикума домашки."""
     try:
         homework_status = requests.get(
             ENDPOINT,
@@ -69,7 +68,7 @@ def get_api_answer(timestamp):
 
 
 def check_response(response):
-    """Проверяет ответ от API на соответствие документации"""
+    """Проверяет ответ от API на соответствие документации."""
     if isinstance(response, dict) is not True:
         raise TypeError('Ответ от API не в виде словаря')
     if 'homeworks' not in response:
@@ -79,7 +78,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Извлекает из домашней работы, её статус"""
+    """Извлекает из домашней работы, её статус."""
     if 'homework_name' in homework:
         homework_name = homework['homework_name']
     else:
