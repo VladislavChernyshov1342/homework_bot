@@ -133,7 +133,6 @@ def main():
         if len(homework_status['homeworks']) == 0:
             logger.debug('Получен пустой список домашних работ')
             time.sleep(RETRY_PERIOD)
-            homework_status = get_api_answer(time_marker)
             continue
         status_work = parse_status(homework_status['homeworks'][0])
         send_message(bot, status_work)
