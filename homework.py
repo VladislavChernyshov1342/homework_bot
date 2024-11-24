@@ -4,12 +4,14 @@ import time
 from dotenv import load_dotenv
 from telebot import TeleBot
 from logger_homework import logger
+from http import HTTPStatus
 from exceptions import (
     ErrorStatusCode,
     NotKeyHomeworks,
     NotKeyHomeworkName,
     NotKeyStatus,
     NotStatusInHomeworkVerdict,
+    NotKeyCurrentDate,
 )
 from constants import (
     PRACTICUM_TOKEN,
@@ -29,11 +31,19 @@ logging.basicConfig(
 )
 
 
+def all(iterable):
+    """Проверяет наличие каждого токена."""
+    for element in iterable:
+        if element is None:
+            return False
+    return True
+
+
 def check_tokens():
     """Проверяет доступность токенов в окружении."""
-    if PRACTICUM_TOKEN is not None and \
-       TELEGRAM_TOKEN is not None and \
-       TELEGRAM_CHAT_ID is not None:
+    tokens = (PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID)
+    result_bool_tokens = all(tokens)
+    if result_bool_tokens is not False:
         return True
     else:
         logger.critical('Отсутствие переменных окружения')
@@ -42,6 +52,7 @@ def check_tokens():
 
 def send_message(bot, message):
     """Отправляет сообщение через бота в Телеграмм."""
+    logger.debug('Начата отправка сообщения в Телеграмм')
     try:
         bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         logger.debug('Сообщение отправлено в Telegram: %s', message)
@@ -60,19 +71,22 @@ def get_api_answer(timestamp):
     except requests.RequestException as e:
         logger.error('Ошибка при запросу к эндпоинту')
         print("Ошибка запроса:", e)
-    if homework_status.status_code == 200:
+    if homework_status.status_code == HTTPStatus.OK:
         return homework_status.json()
-    elif homework_status.status_code != 200:
+    elif homework_status.status_code != HTTPStatus.OK:
         logger.error('Ошибка доступа к странице')
         raise ErrorStatusCode('Ошибка кода страницы!')
 
 
 def check_response(response):
     """Проверяет ответ от API на соответствие документации."""
+    logger.debug('Начата проверка ответа от сервера')
     if isinstance(response, dict) is not True:
         raise TypeError('Ответ от API не в виде словаря')
     if 'homeworks' not in response:
         raise NotKeyHomeworks('Нет нужного ключа homeworks')
+    if 'current_date' not in response:
+        raise NotKeyCurrentDate('Нет нужного ключа current_date')
     if isinstance(response['homeworks'], list) is not True:
         raise TypeError('Ответ от API под ключём homeworks не в виде списка')
 
@@ -147,7 +161,6 @@ def main():
             # тот же статус, цикл начнётся заного и через 10 минут повторится
             # новый запрос к API где мы снова сравним новый статус со статусом
             # от запроса, который был сделан 10 минут спустя.
-            time.sleep(RETRY_PERIOD)
             new_request = get_api_answer(time_marker)
             if homework_status['homeworks'][0]['status'] == \
                     new_request['homeworks'][0]['status']:
@@ -161,6 +174,8 @@ def main():
             message = f'Сбой в работе программы: {error}'
             logger.error(message)
             send_message(bot, message)
+        finally:
+            time.sleep(RETRY_PERIOD)
 
 
 if __name__ == '__main__':

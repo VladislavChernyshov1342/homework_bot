@@ -21,3 +21,8 @@ class NotKeyStatus(Exception):
 class NotStatusInHomeworkVerdict(Exception):
     """Нет статута подходящего по документации"""
     pass
+
+
+class NotKeyCurrentDate(Exception):
+    """Отсутствие ключа current_date"""
+    pass
