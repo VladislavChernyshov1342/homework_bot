@@ -19,6 +19,6 @@
 ### 1. Установка и активация виртуального окружения  
 
 #### **Windows**  
-```bash
+Через bash:
 python -m venv venv
 source venv/Scripts/activate
