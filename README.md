@@ -18,18 +18,18 @@
 
 ### 1. Установка и активация виртуального окружения  
 
-#### **Windows**  
+- #### **Windows**  
 Через bash:
 ```bash
 python -m venv venv
 source venv/Scripts/activate
 ```
-#### **MacOS/Linux**
+- #### **MacOS/Linux**
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
-#### **Установка зависимостей из файла requirements.txt**
+- #### **Установка зависимостей из файла requirements.txt**
 ```bash
 pip install -r requirements.txt
 ```
