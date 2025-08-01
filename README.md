@@ -33,7 +33,7 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-#### **Запуск бота**
+- #### **Запуск бота**
 ```bash
 python homework.py
 ```
