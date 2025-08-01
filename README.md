@@ -26,14 +26,14 @@ source venv/Scripts/activate
 ```
 #### **MacOS/Linux**
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+- python3 -m venv venv
+- source venv/bin/activate
 ```
 #### **Установка зависимостей из файла requirements.txt**
 ```bash
-pip install -r requirements.txt
+- pip install -r requirements.txt
 ```
 #### **Запуск бота**
 ```bash
-python homework.py
+- python homework.py
 ```
