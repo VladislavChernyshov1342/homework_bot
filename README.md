@@ -20,13 +20,20 @@
 
 #### **Windows**  
 Через bash:
-1) python -m venv venv
-2) source venv/Scripts/activate
-
+```bash
+python -m venv venv
+source venv/Scripts/activate
+```
 #### **MacOS/Linux**
-1) python3 -m venv venv
-2) source venv/bin/activate
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 #### **Установка зависимостей из файла requirements.txt**
-1) pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 #### **Запуск бота**
-1) python homework.py
+```bash
+python homework.py
+```
