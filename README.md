@@ -20,5 +20,5 @@
 
 #### **Windows**  
 Через bash:
-python -m venv venv
-source venv/Scripts/activate
+1) python -m venv venv
+2) source venv/Scripts/activate
