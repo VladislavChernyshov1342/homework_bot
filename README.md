@@ -22,3 +22,4 @@
 ```bash
 python -m venv venv
 source venv/Scripts/activate
+#### **MacOS/Linux**
